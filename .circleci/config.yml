@@ -99,31 +99,35 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      # Docker image here that supports AWS CLI
+      - image: amazon/aws-cli
     steps:
-      # Checkout code from git
+      - Checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum install -y tar gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              #--tags project=your-tag \
-              # --stack-name "your back-end stack name with workflow id" \
-              # --parameter-overrides ID="your workflow id"  
-              exit 1
-      - run:
-          name: Ensure front-end infrastructure exist
-          command: |
-            aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              #--tags project=your-tag \
-              # --stack-name "your front-end stack name with workflow id" \
-              # --parameter-overrides ID="your workflow id"  
-              exit 1
+              --tags project=UdaPeople \
+               --stack-name "backendStack${CIRCLE_WORKFLOW_ID:0:5}" \
+               --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5}
+      #        exit 1
+      #- run:
+      #    name: Ensure front-end infrastructure exist
+      #    command: |
+      #      aws cloudformation deploy \
+      #        --template-file .circleci/files/frontend.yml \
+      #        --tags project=UdaPeople \
+      #        --stack-name "frontendStack${CIRCLE_WORKFLOW_ID:0:5}" \
+      #        --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5} 
+      #        exit 1
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            # Your code here
+            aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> .circleci/ansible/inventory.txt
             exit 1
       - persist_to_workspace:
           root: ~/
@@ -133,21 +137,27 @@ jobs:
 
   configure-infrastructure:
     docker:
-      # Docker image here that supports Ansible
+      - image: hesham98/aws-node
     steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["0d:2a:18:55:5b:74:1a:1b:95:41:51:67:89:64:53:8d"]
       # Checkout code from git
       # Add ssh keys with fingerprint
       # attach workspace
-      - run:
-          name: Install dependencies
-          command: |
-            # Your code here
-            exit 1
+      - attach_workspace:
+          at: ~/
       - run:
           name: Configure server
           command: |
             # Your code here
-            exit 1
+            ls
+            pwd
+            cd .circleci/ansible
+            aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-server.yml -vv
+      #      exit 1
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
@@ -266,32 +276,33 @@ cleanup:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
+      #- build-frontend
+      #- build-backend
+      #- test-frontend:
+      #    requires: [build-frontend]
+      #- test-backend:
+      #    requires: [build-backend]
+      #- scan-backend:
+      #    requires: [build-backend]
+      #- scan-frontend:
+      #    requires: [build-frontend]
       - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
-              only: [test-feature-branch]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
-      - cloudfront-update:
-          requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+              only: [main]
+      #        only: [test-feature-branch]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      #- run-migrations:
+      #    requires: [configure-infrastructure]
+      #- deploy-frontend:
+      #    requires: [run-migrations]
+      #- deploy-backend:
+      #    requires: [run-migrations]
+      #- smoke-test:
+      #    requires: [deploy-backend, deploy-frontend]
+      #- cloudfront-update:
+      #    requires: [smoke-test]
+      #- cleanup:
+      #    requires: [cloudfront-update]
