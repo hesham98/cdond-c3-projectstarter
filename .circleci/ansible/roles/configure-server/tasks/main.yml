@@ -1,0 +1,68 @@
+---
+- name: "upgrade packages."
+  become: true
+  apt:
+    upgrade: "yes"
+
+- name: "install dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+
+
+- name: "install docker."
+  become: true
+  apt:
+    name: ["docker.io"]
+    state: latest
+    update_cache: yes
+
+# Uncomment the following to enable insecure registries with Docker
+#- name: ensure docker can use insecure registries in 10.11.0.0/16
+#  lineinfile: "dest=/etc/default/docker regexp=^DOCKER_OPTS line=DOCKER_OPTS='--insecure-registry 10.11.0.0/16'"
+
+# sudo usermod -aG docker root
+# - name: "Add remote ubuntu user to docker group"
+#   user:
+#     name: ubuntu
+#     groups: docker
+#     append: yes
+#   become: true
+
+- name: sudo usermod -aG docker root
+  become: True
+  shell:
+    cmd: "usermod -aG docker ubuntu"
+    chdir: .
+
+# - service: name=docker state=restarted
+#
+
+
+- name: Install docker-compose
+  remote_user: ubuntu
+  get_url: 
+    url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x,o+x'
+
+- copy:
+    src: /home/circleci/project/util/docker-compose.yml
+    dest: /home/ubuntu/
+
+- name: Run PostgresQL DB
+  become: True
+  shell:
+    cmd: "docker-compose -f docker-compose.yml up -d"
+    chdir: .
