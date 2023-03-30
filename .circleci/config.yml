@@ -199,6 +199,8 @@ jobs:
       - run:
           name: Configure server
           command: |
+            ls
+            pwd
             cd .circleci/ansible
             aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             cat inventory.txt
@@ -349,13 +351,13 @@ workflows:
       #    requires: [build-backend]
       #- scan-frontend:
       #    requires: [build-frontend]
-      - deploy-infrastructure:
-      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches: 
-              only: [main]
-      #- configure-infrastructure:
-      #    requires: [deploy-infrastructure]
+      #- deploy-infrastructure:
+      #   requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #    filters:
+      #      branches: 
+      #        only: [master]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       #- run-migrations:
       #    requires: [configure-infrastructure]
       #- deploy-frontend:
