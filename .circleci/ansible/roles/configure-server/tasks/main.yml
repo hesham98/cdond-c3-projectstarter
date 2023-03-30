@@ -19,6 +19,8 @@
     production: yes
     state: present
 
+
+
 - name: "install docker."
   become: true
   apt:
@@ -43,6 +45,10 @@
   shell:
     cmd: "usermod -aG docker ubuntu"
     chdir: .
+
+# - service: name=docker state=restarted
+#
+
 
 - name: Install docker-compose
   remote_user: ubuntu
