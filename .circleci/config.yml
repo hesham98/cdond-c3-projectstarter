@@ -199,8 +199,6 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ls
-            pwd
             cd .circleci/ansible
             aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             cat inventory.txt
@@ -216,7 +214,6 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            pwd
             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             cd backend
             npm install
@@ -228,7 +225,7 @@ jobs:
       #     command: |
       #       # Your code here
       #       exit 1
-     # Here's where you will add some code to rollback on failure      
+      # Here's where you will add some code to rollback on failure      
 
   deploy-frontend:
     docker:
