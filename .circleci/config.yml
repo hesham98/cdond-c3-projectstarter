@@ -216,6 +216,7 @@ jobs:
       - run:
           name: Run migrations
           command: |
+            pwd
             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             cd backend
             npm install
@@ -351,14 +352,14 @@ workflows:
       #    requires: [build-backend]
       #- scan-frontend:
       #    requires: [build-frontend]
-      - deploy-infrastructure:
+      # - deploy-infrastructure:
       #   requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches: 
-              only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      #- run-migrations:
+      #     filters:
+      #       branches: 
+      #         only: [master]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      - run-migrations:
       #    requires: [configure-infrastructure]
       #- deploy-frontend:
       #    requires: [run-migrations]
