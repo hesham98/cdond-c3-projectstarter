@@ -217,9 +217,10 @@ jobs:
             export TYPEORM_HOST=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             cd backend
             npm cache clean
+            npm  run build -prod
             npm install
             npm run premigrations
-            # npm run migrations
+            npm run migrations
             
 
       # - run:
