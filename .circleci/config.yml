@@ -161,7 +161,7 @@ jobs:
       #       aws cloudformation deploy \
       #         --template-file .circleci/files/backend.yml \
       #         --tags project=udapeople \
-      #         --stack-name "backend" \
+      #         --stack-name "backendStack" \
       #         --parameter-overrides ID=${CIRCLE_WORKFLOW_ID:0:5}
 
       - run:
@@ -170,7 +170,7 @@ jobs:
            aws cloudformation deploy \
              --template-file .circleci/files/frontend.yml \
              --tags project=udapeople \
-             --stack-name "frontend-${CIRCLE_WORKFLOW_ID:0:5}" \
+             --stack-name "frontendStack" \
              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:5}"
       - run:
           name: Add back-end ip to ansible inventory
@@ -239,9 +239,8 @@ jobs:
             npm run build:prod
             # aws s3 sync dist s3://udapeople-project
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:5} --recursive
-
           
-                    
+
   deploy-backend:
     docker:
       - image: hesham98/aws-node
@@ -349,13 +348,12 @@ workflows:
           filters: 
             branches: 
               only: [master]   
-      # - configure-infrastructure: 
-      #     requires: [deploy-infrastructure]
-      # - run-migrations  
-          # requires: [configure-infrastructure]
+      - configure-infrastructure: 
+          requires: [deploy-infrastructure]
+      - run-migrationsL:  
+          requires: [configure-infrastructure]
       - deploy-frontend:
-         requires: [deploy-infrastructure]
-        #  requires: [run-migrations]
+         requires: [run-migrations]
       # - deploy-backend
       #    requires: [run-migrations]
       #- smoke-test:
