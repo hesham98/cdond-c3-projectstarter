@@ -29,7 +29,7 @@ describe('Employee Remover', () => {
       );
 
       // Act
-      await handler.handle(activateEmployeeCommand);
+      await handle r.handle(activateEmployeeCommand);
 
       // Assert
       expect(employeeRepository.findById).toBeCalledWith(100);
