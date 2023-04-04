@@ -4,27 +4,27 @@ orbs:
   slack: circleci/slack@4.10.1
 
 commands:
-  # destroy_environment:
-  #   description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-  #   parameters:
-  #     Workflow_ID:
-  #       type: string
-  #       default: ${CIRCLE_WORKFLOW_ID:0:5}
-  #   steps:
-  #     - run:
-  #         name: Destroy environment
-  #         when: on_fail
-  #         command: |
-  #           aws cloudformation delete-stack --stack-name backendStack
-  #           aws cloudformation delete-stack --stack-name frontendStack
-  #           aws s3 rm s3://udapeople-ca112 --recursive 
+  destroy_environment:
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
+    parameters:
+      Workflow_ID:
+        type: string
+        default: ${CIRCLE_WORKFLOW_ID:0:5}
+    steps:
+      - run:
+          name: Destroy environment
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name backendStack
+            aws cloudformation delete-stack --stack-name frontendStack
+            aws s3 rm s3://udapeople-ca112 --recursive 
             
-    notify_on_failure:
-      steps:
-        - slack/notify:
-            event: fail
-            channel: $SLACK_DEFAULT_CHANNEL
-            template: basic_fail_1
+  notify_on_failure:
+    steps:
+      - slack/notify:
+          event: fail
+          channel: $SLACK_DEFAULT_CHANNEL
+          template: basic_fail_1
 
   notify_on_success:
       steps:
