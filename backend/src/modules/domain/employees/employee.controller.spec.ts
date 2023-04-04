@@ -37,7 +37,7 @@ describe('Employee Controller', () => {
         displayName: 'Jimmy',
         effectiveDate: '2018-22-10',
         companyEmail: 'jimmyramos@acklenavenue.com',
-        firstame: 'Jimmy',
+        firstName: 'Jimmy',
         gender: 'Male',
         lastName: 'Ramos',
         middleName: 'Josue',
@@ -52,7 +52,7 @@ describe('Employee Controller', () => {
       };
 
       // Act
-      await employeeController.createEmployee(jjjjj);
+      await employeeController.createEmployee(request);
 
       // Assert
       expect(fakeCommandDispatcher.execute).toBeCalledWith(request);
