@@ -30,7 +30,7 @@ commands:
         - slack/notify:
             event: pass
             channel: $SLACK_DEFAULT_CHANNEL
-            template: success_tagged_deployment_1
+            template: success_tagged_deployment_1 
 
 
   revert-migrations:
