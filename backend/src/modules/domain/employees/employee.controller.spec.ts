@@ -3,7 +3,7 @@ import { SyncCommandDispatcher } from '../../common/commands';
 import { CreateEmployeeRequest } from './requests/create-employee-request.interface';
 import { EmployeeRepository } from './repositories/employees.repository';
 
-xdescribe('Employee Controller', () => {
+describe('Employee Controller', () => {
   // Arrange
   // @ts-ignore
   const fakeEmployeeRepository: EmployeeRepository = {
@@ -11,7 +11,7 @@ xdescribe('Employee Controller', () => {
     findByNames: jest.fn(),
   };
 
-  let xemployeeController;
+  let employeeController;
 
   // @ts-ignore
   const fakeCommandDispatcher: SyncCommandDispatcher = {
@@ -55,7 +55,7 @@ xdescribe('Employee Controller', () => {
       await employeeController.createEmployee(request);
 
       // Assert
-      xexpect(fakeCommandDispatcher.execute).toBeCalledWith(request);
+      expect(fakeCommandDispatcher.execute).toBeCalledWith(request);
     });
   });
 
