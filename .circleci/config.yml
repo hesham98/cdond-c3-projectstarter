@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@4.12.1
+  slack: circleci/slack@4.10.1
 
 commands:
   destroy_environment:
@@ -18,7 +18,7 @@ commands:
             aws cloudformation delete-stack --stack-name backendStack
             aws cloudformation delete-stack --stack-name frontendStack
             aws s3 rm s3://udapeople-5ef1b --recursive
-            
+             
   notify_on_failure:
       steps:
         - slack/notify:
