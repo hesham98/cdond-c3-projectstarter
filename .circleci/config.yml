@@ -17,7 +17,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name backendStack
             aws cloudformation delete-stack --stack-name frontendStack
-            aws s3 rm s3://udapeople-ca112 --recursive 
+            aws s3 rm s3://udapeople-6286b --recursive 
             
   notify_on_failure:
     steps:
@@ -340,7 +340,7 @@ workflows:
   default:
     jobs:
       #- build-frontend
-      #- build-backend
+      - build-backend
       #- test-frontend:
       #    requires: [build-frontend]
       #- test-backend:
