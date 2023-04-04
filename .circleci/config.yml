@@ -17,8 +17,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name backendStack
             aws cloudformation delete-stack --stack-name frontendStack
-            aws s3 rm s3://udapeople-ca112 --recursive >>
-            exit 1
+            aws s3 rm s3://udapeople-ca112 --recursive 
             
     notify_on_failure:
       steps:
