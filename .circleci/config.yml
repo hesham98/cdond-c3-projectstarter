@@ -88,7 +88,7 @@ jobs:
             npm run build
 
       - notify_slack_error
-      - notify_slack_pass
+      # - notify_slack_pass 
 
       - save_cache:
           paths: [backend/node_modules]
