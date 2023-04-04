@@ -1,7 +1,7 @@
 version: 2.1
 
-orbs: 
-    slack: circleci/slack@4.10.1
+orbs:
+  slack: circleci/slack@4.12.1
 
 commands:
   destroy_environment:
@@ -87,6 +87,9 @@ jobs:
             cd backend 
             npm iiinstall
             npm run build
+
+      - notify_on_failure
+        
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -336,7 +339,7 @@ workflows:
   default:
     jobs:
       # - build-frontend
-      - build-backend
+      - build-backend 
       # - test-frontend:
       #    requires: [build-frontend]
       # - test-backend:
