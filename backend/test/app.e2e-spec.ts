@@ -6,16 +6,16 @@ import { INestApplication } from '@nestjs/common';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  xbeforeAll(async () => {
+  beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
-    xapp = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication();
     await app.init();
   });
 
-  xit('/ (GET)', () => {
+  it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
