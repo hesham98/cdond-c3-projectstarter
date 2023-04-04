@@ -87,7 +87,7 @@ jobs:
             npm iiinstall
             npm run build
 
-      - notify_slack_error  
+      - notify_slack_error   
       # - notify_slack_pass 
 
       - save_cache:
