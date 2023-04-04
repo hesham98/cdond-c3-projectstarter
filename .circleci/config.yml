@@ -86,7 +86,7 @@ jobs:
           name: Back-end build
           command: | 
             cd backend 
-            npm iiinstall
+            npm install
             npm run build
 
       # - notify_on_failure  
