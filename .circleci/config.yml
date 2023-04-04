@@ -89,7 +89,7 @@ jobs:
             npm iinstall
             npm run build
 
-      - notify_on_failure  
+      # - notify_on_failure  
       # - notify_on_success
 
       - save_cache:
@@ -280,8 +280,8 @@ jobs:
           command: |
             export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             
-            URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
-            # URL="http://g00gle.com"
+            # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
+            URL="http://g00gle.com"
             if curl -s --head ${URL}
             then
               echo "It worked!"
@@ -290,9 +290,9 @@ jobs:
               echo "Rolling Back"
               exit 1
             fi
-      # - notify_on_failure
+      - notify_on_failure
       - destroy_environment
-      # - revert-migrations 
+      - revert-migrations 
 
   cloudfront-update: 
     docker:
@@ -363,7 +363,7 @@ workflows:
       #    requires: [run-migrations]
       # - deploy-backend:
       #    requires: [run-migrations]
-      # - smoke-test:
+      - smoke-test
       #    requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #    requires: [smoke-test]
