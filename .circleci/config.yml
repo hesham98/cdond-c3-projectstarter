@@ -86,11 +86,11 @@ jobs:
           name: Back-end build
           command: | 
             cd backend 
-            npm iinstall
+            npm install
             npm run build
 
       # - notify_on_failure  
-      # - notify_on_success
+      - notify_on_success
 
       - save_cache:
           paths: [backend/node_modules]
