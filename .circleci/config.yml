@@ -86,7 +86,7 @@ jobs:
           name: Back-end build
           command: | 
             cd backend 
-            npm iInstall
+            npm iinstall
             npm run build
 
       - notify_on_failure  
