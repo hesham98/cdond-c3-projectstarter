@@ -149,9 +149,7 @@ jobs:
       - run:
           name: Scan Back-end
           command: |
-            # exit 0
-            cd backend
-            npm install
+            # exit 0s
             npm audit
 
   deploy-infrastructure:
