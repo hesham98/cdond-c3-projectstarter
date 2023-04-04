@@ -281,7 +281,7 @@ jobs:
             export BACKEND_PUBLIC_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
             
             # URL="http://$BACKEND_PUBLIC_IP:3030/api/status"
-            URL="http://g00gle.com"
+            URL="http://google.com"
             if curl -s --head ${URL}
             then
               echo "It worked!"
@@ -290,9 +290,9 @@ jobs:
               echo "Rolling Back"
               exit 1
             fi
-      - notify_on_failure
-      - destroy_environment
-      - revert-migrations 
+      - notify_on_success
+      # - destroy_environment
+      # - revert-migrations 
 
   cloudfront-update: 
     docker:
@@ -341,7 +341,7 @@ workflows:
   default:
     jobs:
       # - build-frontend
-      - build-backend  
+      # - build-backend  
       # - test-frontend:
       #    requires: [build-frontend]
       # - test-backend:
