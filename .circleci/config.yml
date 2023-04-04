@@ -122,8 +122,8 @@ jobs:
       - run:
           name: Test Back-end
           command: |
-            exit 0
-            cd backend
+            # exit 0
+            # cd backend
             npm run test
             
   scan-frontend:
