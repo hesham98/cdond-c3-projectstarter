@@ -37,7 +37,7 @@ describe('Employee Controller', () => {
         displayName: 'Jimmy',
         effectiveDate: '2018-22-10',
         companyEmail: 'jimmyramos@acklenavenue.com',
-        firstNxxame: 'Jimmy',
+        firstName: 'Jimmy',
         gender: 'Male',
         lastName: 'Ramos',
         middleName: 'Josue',
@@ -64,7 +64,7 @@ describe('Employee Controller', () => {
       // Arrange
       const request = {
         employeeId: 100,
-        firstName: 'Jimmy',
+        firName: 'Jimmy',
         lastName: 'Ramos',
         middleName: 'Josue',
         secondLastName: 'Banegas',
