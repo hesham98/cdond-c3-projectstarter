@@ -52,7 +52,7 @@ describe('Employee Controller', () => {
       };
 
       // Act
-      await employeeController.createEmployee(request);
+      await employeeController.createEmployee(jjjjj);
 
       // Assert
       expect(fakeCommandDispatcher.execute).toBeCalledWith(request);
