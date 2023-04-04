@@ -17,7 +17,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name backendStack
             aws cloudformation delete-stack --stack-name frontendStack
-            aws s3 rm s3://udapeople-5ef1b --recursive 
+            aws s3 rm s3://udapeople-ca112 --recursive 
              
   notify_on_failure:
       steps:
@@ -350,21 +350,21 @@ workflows:
       #    requires: [build-backend]
       # - scan-frontend:
       #    requires: [build-frontend]
-      - deploy-infrastructure:
-          # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters: 
-            branches: 
-              only: [master]   
-      - configure-infrastructure: 
-          requires: [deploy-infrastructure]
-      - run-migrations:  
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-         requires: [run-migrations]
-      - deploy-backend:
-         requires: [run-migrations]
-      # - smoke-test:
-      #    requires: [deploy-backend, deploy-frontend]
+      # - deploy-infrastructure:
+      #     # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #     filters: 
+      #       branches: 
+      #         only: [master]   
+      # - configure-infrastructure: 
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:  
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #    requires: [run-migrations]
+      - deploy-backend
+      #    requires: [run-migrations]
+      # - smoke-test
+        #  requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #    requires: [smoke-test]
       # - cleanup:
