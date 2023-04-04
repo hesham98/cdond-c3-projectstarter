@@ -48,7 +48,7 @@ export class EmployeeController {
     @Body() employeeRequest: CreateEmployeeRequest,
   ): Promise<Employee> {
     const employee = await this.employeeRepository.findByNames(
-      employeeRequest.fiame,
+      employeeRequest.firstName,
       employeeRequest.middleName,
       employeeRequest.lastName,
       employeeRequest.secondLastName,
