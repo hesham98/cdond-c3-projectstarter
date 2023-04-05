@@ -320,12 +320,17 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
+            export OldWorkflowID=$(aws cloudformation \
+                list-exports --query "Exports[?Name==\'WorkflowID\'].Value" \
+                --no-paginate --output text)) 
+
             export STACKS=($(aws cloudformation list-stacks \
                 --query "StackSummaries[*].StackName" \
                 --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+
+            echo OldWorkflowID: "$OldWorkflowID" 
             echo Stack names: "${STACKS[@]}"
-            export OldWorkflowID=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/old_workflow_id)
-            echo Old Workflow ID: $OldWorkflowID 
+        
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               aws s3 rm s3://udapeople-3eab0 --recursive
@@ -333,8 +338,6 @@ jobs:
               aws cloudformation delete-stack --stack-name frontendStack
             fi 
             
-
-         
 
 workflows:
   default:
@@ -364,7 +367,7 @@ workflows:
       #    requires: [run-migrations]
       # - smoke-test:
       #    requires: [deploy-backend, deploy-frontend]
-      - cloudfront-update
+      # - cloudfront-update
         #  requires: [smoke-test]
-      - cleanup:
-         requires: [cloudfront-update]
+      - cleanup
+        #  requires: [cloudfront-update]
