@@ -1,8 +1,8 @@
 1-Public Url to GitHub repository (not private) [URL01]
-    https://github.com/hesham98/cdond-c3-projectstarter
+	https://github.com/hesham98/cdond-c3-projectstarter
 
 2-Public URL for your S3 Bucket (aka, your green candidate front-end) [URL02]
-    http://udapeople-37a55.s3-website-us-east-1.amazonaws.com/#/employees
+	http://udapeople-0d77c.s3-website-us-east-1.amazonaws.com/#/employees
 
 3-Public URL for your CloudFront distribution (aka, your blue production front-end) [URL03]
-	https://d23ha5azvqj59z.cloudfront.net
+	http://d33t054pvl3px5.cloudfront.net/#/employees
